@@ -1,0 +1,78 @@
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        <strong>
+          L'équipe :
+        </strong>
+      </p>
+    </div>
+    <div class="columns">
+
+
+    {% for author in site.authors %}
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <img src="{{ author[1].image }}" alt="{{ author[1].name }} photo">
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-4"> {{ author[1].name }} </p>
+                <p class="subtitle is-6">
+                  {% if author[1].linkedin %}
+                  <a href="{{author[1].linkedin | prepend: site.linkedin_url}}" >
+                    <span class="icon">
+                      <i class="fa fa-linkedin" aria-hidden="true"></i>
+                    </span> {{author[1].linkedin}}
+                  </a>
+                  {% endif %}
+                  {% if author[1].twitter %}
+                    <a href="{{author[1].twitter | prepend: site.twitter_url}}" >
+                      <span class="icon">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                      </span> {{author[1].twitter}}
+                    </a>
+                  {% endif %}
+                  {% if author[1].email %}
+                  <span class="icon">
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                  </span> {{author[1].email}}
+                  {% endif %}
+                </p>
+              </div>
+            </div>
+
+            <div class="content">
+              <p>
+                {{author[1].text}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+
+    </div>
+    <div class="content has-text-centered">
+      <p>
+        The source code is licensed under LGPL 3.0
+      </p>
+      <p>
+        <a href="about">About the project</a>
+      </p>
+      <p>
+        <a class="icon" href="https://github.com/{{ site.project.general.repo }}">
+          <i class="fa fa-github"></i>
+        </a>
+        <a class="icon" href="https://twitter.com/tainmar">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>

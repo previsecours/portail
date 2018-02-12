@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" class="has-navbar-fixed-top">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Step-by-step tutorial</title>
+        <meta name="description" content="P
+">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicons/favicon-16x16.png">
+        <link rel="manifest" href="/assets/images/favicons/manifest.json">
+        <link rel="mask-icon" href="/assets/images/favicons/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="/assets/images/favicons/favicon.ico">
+        <meta name="msapplication-config" content="/assets/images/favicons/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="canonical" href="http://0.0.0.0:4000/tutorial" />
+
+        <link rel="stylesheet" href="/assets/css/app.css" />
+    </head>
+
+    <body>
+        <nav class="navbar is-fixed-top is-transparent">
+  <div class="container">
+    <div class="navbar-brand">
+      <a href="/" class="logo">
+          <img src="/assets/images/eig.png" alt="matchID Logo">
+      </a>
+      <div class="navbar-burger burger" data-target="navMenubd-main">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div id="navMenubd-main" class="navbar-menu">
+      <div class="navbar-start">
+        <a href="https://algo.previsecours.fr" class="navbar-item has-text-primary">
+          <span class="icon">
+            <i class="fa fa-flask" aria-hidden="true"></i>
+          </span> les algos
+        </a>
+        <a href="https://viz.previsecours.fr" class="navbar-item has-text-primary">
+          <span class="icon">
+            <i class="fa fa-bar-chart" aria-hidden="true"></i>
+          </span> les viz
+        </a>
+        <a href="tutorial" class="navbar-item has-text-primary">
+          <span class="icon">
+            <i class="fa fa-book" aria-hidden="true"></i>
+          </span> Docs
+        </a>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <a class="button is-info"
+            data-social-network="Twitter"
+            data-social-action="tweet"
+            data-social-target="https://twitter.com/tainmar"
+            target="_blank"
+            href="https://twitter.com/intent/tweet?text=aider les sapeurs-pompiers à intervenir plus efficacement avec des modèles prédictifs&hashtags=previsecours&url=http://0.0.0.0:4000&via=datatiph">
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+            <span>Tweet</span>
+          </a>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable is-boxed">
+          <a class="navbar-link" target="_blank" href="https://github.com/matchID-project">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span> Repositories
+          </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item" target="_blank" href="https://github.com/matchID-project/backend">
+              <span class="icon">
+                <i class="fa fa-github"></i>
+              </span>
+              <span>Backend</span>
+            </a>
+            <a class="navbar-item" target="_blank" href="https://github.com/matchID-project/frontend">
+              <span class="icon">
+                <i class="fa fa-github"></i>
+              </span>
+              <span>Frontend</span>
+            </a>
+            <a class="navbar-item" target="_blank" href="https://github.com/matchID-project/examples">
+              <span class="icon">
+                <i class="fa fa-github"></i>
+              </span>
+              <span>Examples</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="navbar-item has-dropdown is-hoverable is-boxed">
+          <a class="navbar-link">
+            <span class="icon">
+              <i class="fa fa-download"></i>
+            </span> Download
+          </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/matchID-project/backend/archive/master.zip">
+              <span class="icon">
+                <i class="fa fa-download"></i>
+              </span>
+              <span>Backend</span>
+            </a>
+            <a class="navbar-item" href="https://github.com/matchID-project/frontend/archive/master.zip">
+              <span class="icon">
+                <i class="fa fa-download"></i>
+              </span>
+              <span>Frontend</span>
+            </a>
+            <a class="navbar-item" href="https://github.com/matchID-project/examples/archive/master.zip">
+              <span class="icon">
+                <i class="fa fa-download"></i>
+              </span>
+              <span>Examples</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+        <section class="hero is-primary is-medium is-bold">
+          <div class="hero-body">
+            <div class="container has-text-centered">
+              <h1 class="title">
+                Step-by-step tutorial
+              </h1>
+              <h2 class="subtitle">
+                Understanding when to use it
+              </h2>
+            </div>
+          </div>
+        </section>
+
+        <div class="container">
+          <div class="content margin-content">
+            <div class="columns is-centered">
+              <div class="column is-10">
+                <h1 id="tutorial">Tutorial</h1>
+<p>This tutorial will deal with tree use-cases :</p>
+<ul>
+  <li>find common identities between two big datasets</li>
+  <li>find doubles within a dataset</li>
+  <li>build a search api against a dataset (“top of elasticsearch” API)</li>
+</ul>
+
+<h2 id="cooking-recipes-with-matchid">Cooking recipes with matchID</h2>
+
+<h3 id="global-method-used-for-matching">Global method used for matching</h3>
+<p>This is our usecase : we have to remove dead people, as registered in dataset “deaths”, from a client file, “clients”.
+We’ll follow four steps :</p>
+
+<ul>
+  <li>1: prepare deaths dataset</li>
+  <li>2: prepare clients dataset, match it against dataset 1 &amp; score the matches</li>
+  <li>3: validate matches and train rescoring with machine learning</li>
+  <li>4: rescore with the machine learning kernel</li>
+</ul>
+
+<p><img src="assets/images/workflow.png" alt="matching workflow" /></p>
+
+<h3 id="the-philosophy-of-iterative-cooking">the philosophy of iterative cooking</h3>
+
+<p>So, the final goal is the match but we have first to deal with the way, which mainly is data preparation. So we’ll learn here how to cook your data with recipes.</p>
+
+<p>We propose a 4-step iterated method :</p>
+<ul>
+  <li>upload raw data and configuration files</li>
+  <li>edit yaml configuration files</li>
+  <li>test recipes</li>
+  <li>run recipes</li>
+</ul>
+
+<p>Depending on your usecsae, if the goal is to develop a search api, you can have a fifth step:</p>
+<ul>
+  <li>upload &amp; apply recipe live</li>
+</ul>
+
+<p>Iterating through theses steps will allow you to create recipes and datasets for two purposes:</p>
+<ul>
+  <li>prepare your datasets (upload, map names/dates/locations)</li>
+  <li>search matches and score them</li>
+</ul>
+
+<p>3 further steps will enable machine learning capability:</p>
+<ul>
+  <li>validate the matches (through the <a href="">matchID-validation</a> UI cf below)</li>
+  <li>train machine learning models (using yaml edition and recipe testing again)</li>
+  <li>apply for rescoring (idem)</li>
+</ul>
+
+<p>In the final round, matching a dataset of people, <code class="highlighter-rouge">clients</code>, against another already index-one, <code class="highlighter-rouge">death</code>  will look like this recipe :</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>recipes:
+  clients_deaths_matching:
+    apply: True
+    input: clients_csv
+    output: clients_x_deaths
+    steps:
+      - dataprep_clients:
+      - deaths_matching:
+      - diff:
+      - rescoring_clients_x_deaths:
+</code></pre></div></div>
+
+<p>This lead to have a new API endpoint, http://localhost/matchID/api/v0/recipes/clients_deaths_matching/apply where you’ll just have to post every new month of your csv raw data, to get the json of ml-rescored potential candidates to remove.</p>
+
+<p>This quite simple overview, relies in fact relying on more than 50 steps of treatments, so you’ll have to work a bit more to adapt it to your case.
+This recipes, against a some-millions <code class="highlighter-rouge">death</code> reference dataset, should gives about 10 matches/seconds on a up-to-date laptop, and around, 150 matches/second on a good 1U server.</p>
+
+<h2 id="starting-a-developpement-matchid-server">starting a developpement matchID server</h2>
+
+<p>A laptop with &gt;8Go configuration is recommended to have a first look on matchID. Good performance with need higher computation resources (the higher the better : 16-cores + 128Go will be 15x faster than a laptop, we tested up-scaling to 40-cores for 40x faster).</p>
+
+<p>matchID uses make and Docker to accelerate installation of dependencies. You’ll first have to install Docker and docker-compose.</p>
+
+<p>Then clone the project :</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/matchID-project/backend
+</code></pre></div></div>
+
+<p>and start the tutorial mode, which download, compiles necessary stuff, and launch the backend, frontend and elasticsearch :</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make tuto
+</code></pre></div></div>
+<p>Any problems ? See the <a href="https://github.com/matchID-project/backend#frequent-running-problems">troubleshooting</a> section.</p>
+
+<p>Note that machine learning is not mandatory (you can have a real serious matching only based on rules) but recommended for reducting development time.</p>
+
+<p>So you can go to your matchID server : <a href="http://localhost">http://localhost</a></p>
+
+<p><img src="assets/images/frontend-start.png" alt="matchID projects view" /></p>
+
+<h2 id="first-project-first-dataset-first-recipe">first project, first dataset, first recipe</h2>
+
+<h3 id="project">project</h3>
+<p>We’ll first have to create a project. This will basically be a folder, containing datasets and recipes (data transformation). A good segmentation is to build a project for each goal : our use case is to match deaths within a client file, so we basically chose to have two projects: deaths, and clients. Just clic on <code class="highlighter-rouge">new project</code> and name the first one <code class="highlighter-rouge">deaths</code>:</p>
+
+<p><img src="assets/images/frontend-new-project.png" alt="matchID new project" /></p>
+
+<p>Which leads to:
+<img src="assets/images/frontend-project-view-empty.png" alt="matchID projects view" /></p>
+
+<p>*Note :</p>
+<ul>
+  <li>The segmentation of the projects are very easy to do server-side, as it only conains two sub-folders, datasets and recipes. We didn’t implement method for splitting or reorganising project at this step of the dev, as the ratio of benefit/cost of folder management is very low.</li>
+  <li>There is not versionning of the projects : you have to do your own version - at this step we do it by gitting them server side, so be careful in any change you make - git may be supported in a potential theorical future*</li>
+</ul>
+
+<h3 id="dataset">dataset</h3>
+<p>Repeat clicking on <code class="highlighter-rouge">import dataset</code>, and just drag-n-drop (thx to <a href="http://www.dropzonejs.com/">Dropzone</a>) the <a href="https://github.com/matchID-project/examples/raw/master/data/deaths.txt.gz"><code class="highlighter-rouge">death.txt.gz</code></a> you just downloaded from the <a href="https://github.com/matchID-project/examples">examples matchID repo</a>.</p>
+
+<p><img src="assets/images/frontend-import-dataset.png" alt="matchID import dataset" /></p>
+
+<p>Now you have your first dataset:
+<img src="assets/images/frontend-dataset-deaths-ko.png" alt="matchID dataset first view" /></p>
+
+<p>We have many observation.
+First the screen composition :</p>
+<ul>
+  <li>left: yaml coding part (thx to <a href="https://codemirror.net/">codemirror</a>) which is the declaration of the dataset</li>
+  <li>right: the view of the dataset, as declared in the yaml</li>
+</ul>
+
+<p>Secondly the data:</p>
+<ul>
+  <li>the data seem real : well no, this data is quite realistic but synthetic data of french civil states. The statistics of the columns of the first, last names, and birth places are realistic, but not the association of the three.</li>
+  <li>the columns doesn’t seem ok, names and columns are not correct : that file is a realistic example of a fixed width file format, and matches the INSEE Rnipp official format</li>
+</ul>
+
+<p>Take a look in a terminal of your gzipped fwf data :</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ zcat death.txt.gz | head -5
+CZAJA*ROLAND BERNARD/                                                           11933052479048BRELOUX-LA-CRECHE                                           199209257904812143     
+TRAZIC*JULIE CONSTANCE/                                                         21937111376134BOURVILLE                                                   200402217613414800     
+ARMAND*EUGENE ROBERT GEORGES/                                                   11912051180342FRAMERVILLE-RAINECOURT                                      20130406803429904      
+ALLAIRE*ANATOLE CAMILLE/                                                        11920071193049NEUILLY-PLAISANCE                                           201103189304911821     
+JEAUNEAU*RAYMONDE JULIETTE ARLETTE/                                             21945100482043COMBEROUGER                                                 201105208204312208   
+</code></pre></div></div>
+
+<p>Well, it’s quite boring do decrypt it so here is the solution, just copy-paste it on the dataset yaml code (each important line is commented) :</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datasets:
+  deaths_txt_gz:
+    connector: upload             # the filesystem connector name, where drag'n dropped files are put
+    table: deaths.txt.gz          # filename - could be a regex if multiple files
+    encoding: latin1              # the encoding of the file, often utf8 for recent files
+    type: fwf                     # type of the file : could be csv (tabular text), fwf (fixed with) or hdf5 (binary format)
+    widths:                       # widths of the successive columns, as it is a fwf 
+      - 80
+      - 1
+      - 8
+      - 5
+      - 30
+      - 30
+      - 8
+      - 5
+      - 10
+    names:                       # names of the successive columns, that you can customize
+      - DCD_NOM_PRENOMS
+      - DCD_SEXE
+      - DCD_DATE_NAISSANCE
+      - DCD_CODE_INSEE_NAISSANCE
+      - DCD_COMMUNE_NAISSANCE
+      - DCD_PAYS_NAISSANCE
+      - DCD_DATE_DECES
+      - DCD_CODE_INSEE_DECES
+      - DCD_NUM_DECES
+</code></pre></div></div>
+
+<p>Now you save that with <code class="highlighter-rouge">Ctrl+S</code> or the <code class="highlighter-rouge">Save</code> button.</p>
+
+<p><strong>Warning : mind any change you make to your code. Any change is definitive, and you may loose your code if you change the two first lines of the yaml code.</strong></p>
+
+<p><em>if you’re lost you can go to the <code class="highlighter-rouge">tutorial</code> folder to <code class="highlighter-rouge">rm -f tutorial/projects/deaths/datasets/deaths_txt_gz.yml</code> and try it again. You can even <code class="highlighter-rouge">rm -rf tutorial/projects/deaths</code> and give a new birth to your project</em></p>
+
+<p>Here you are:
+<img src="assets/images/frontend-dataset-deaths-ok.png" alt="matchID dataset correct view" /></p>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        <strong>
+          L'équipe :
+        </strong>
+      </p>
+    </div>
+    <div class="columns">
+
+
+    
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <img src="/assets/images/TiphainePheNeau.png" alt="Tiphane Phe Neau photo">
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-4"> Tiphane Phe Neau </p>
+                <p class="subtitle is-6">
+                  
+                  <a href="https://linkedin.com/in/pheneau" >
+                    <span class="icon">
+                      <i class="fa fa-linkedin" aria-hidden="true"></i>
+                    </span> pheneau
+                  </a>
+                  
+                  
+                    <a href="https://twitter.com/datatiph" >
+                      <span class="icon">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                      </span> datatiph
+                    </a>
+                  
+                  
+                </p>
+              </div>
+            </div>
+
+            <div class="content">
+              <p>
+                Tiphaine est titulaire d’un doctorat en informatique de l’Université Pierre et Marie Curie. Après ses études, elle a voulu utiliser ses capacités d’abstraction, d’observation et de réalisation pour s’attaquer à de nouvelles problématiques en tant que data scientist. Elle a travaillé dans des entreprises telles que Dailymotion, Clustree ou Saegus sur une grande variété de sujets. En tant que data scientist, elle apprécie combiner les connaissances métiers avec les aspects techniques pour obtenir des solutions efficaces et réalistes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <img src="/assets/images/GuillaumeLancrenon.png" alt="Guillaume Lancrenon photo">
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-4"> Guillaume Lancrenon </p>
+                <p class="subtitle is-6">
+                  
+                  <a href="https://linkedin.com/in/guillaumelancrenon" >
+                    <span class="icon">
+                      <i class="fa fa-linkedin" aria-hidden="true"></i>
+                    </span> guillaumelancrenon
+                  </a>
+                  
+                  
+                  
+                </p>
+              </div>
+            </div>
+
+            <div class="content">
+              <p>
+                Guillaume Lancrenon a débuté comme ingénieur d’exploration sismique chez Westerngeco, une filiale offshore de Schlumberger. Il est ensuite passé par l’entreprenariat avec la réalisation de CommoPrices, une startup spécialisée dans le suivi du cours des matières premières. Il a récemment rejoint le programme EIG pour mettre ses compétences au service des pompiers.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <img src="/assets/images/ansellem.JPG" alt="Daniel Ansellem photo">
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-4"> Daniel Ansellem </p>
+                <p class="subtitle is-6">
+                  
+                  
+                  
+                </p>
+              </div>
+            </div>
+
+            <div class="content">
+              <p>
+                Daniel Ansellem a été nommé en Juillet 2016 Administrateur ministériel des données du Ministère de l’Intérieur, il dirige également depuis cette date la mission de coordination et d’appui à la valorisation des données, au sein de la Mission de gouvernance ministérielle des SIC.
+« Je suis convaincu que les données contenues dans les centaines d’applications du Ministère de l’Intérieur constituent une richesse à exploiter, pour davantage d’efficacité et de transparence.  Il faut faire la preuve, par l’expérimentation, que l’on peut, en moins d’un an, construire un outil fonctionnel permettant de mieux utiliser certaines données, par l’enrichissement, le croisement, la visualisation, ou la montée en qualité. Le dispositif EIG permet de répondre à cet objectif en dédiant deux ingénieurs de haut niveau à un défi qui correspond à leurs compétences, au sein d’une structure transverse, où ils bénéficient d’une large autonomie, mais aussi d’un tutorat et d’outils adaptés. »
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+
+    </div>
+    <div class="content has-text-centered">
+      <p>
+        The source code is licensed under LGPL 3.0
+      </p>
+      <p>
+        <a href="about">About the project</a>
+      </p>
+      <p>
+        <a class="icon" href="https://github.com/matchID-project">
+          <i class="fa fa-github"></i>
+        </a>
+        <a class="icon" href="https://twitter.com/tainmar">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+        <script src="/assets/javascript/main.js"></script>
+        <script src="/assets/javascript/jquery-3.1.1.min.js"></script>
+
+        <script>
+            $('.nav-toggle').bind('click', function(){
+                var menus = $(this).siblings(".nav-menu");
+                if(menus.hasClass('is-active')){
+                    menus.removeClass('is-active');
+                } else {
+                    menus.addClass('is-active');
+                }
+            });
+        </script>
+    </body>
+</html>
