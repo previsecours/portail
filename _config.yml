@@ -66,5 +66,6 @@ exclude:
   - Makefile
   - docker-compose-build.yml
   - docker-compose-serve.yml
+  - docker-compose-nginx.yml
   - Dockerfile-build
   - Dockerfile-serve
