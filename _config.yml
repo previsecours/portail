@@ -63,3 +63,8 @@ exclude:
   - vendor/cache/
   - vendor/gems/
   - vendor/ruby/
+  - Makefile
+  - docker-compose-build.yml
+  - docker-compose-serve.yml
+  - Dockerfile-build
+  - Dockerfile-serve
