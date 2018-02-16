@@ -11,6 +11,10 @@ build: pull
 serve:
 	docker-compose -f docker-compose-serve.yml up --build -d
 
-nginx:
+down:
+	docker-compose -f docker-compose-nginx.yml down
+up:
 	docker-compose -f docker-compose-nginx.yml up -d
+
+restart: build down up
 
