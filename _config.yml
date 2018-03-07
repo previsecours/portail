@@ -26,20 +26,8 @@ authors:
 « Je suis convaincu que les données contenues dans les centaines d’applications du Ministère de l’Intérieur constituent une richesse à exploiter, pour davantage d’efficacité et de transparence.  Il faut faire la preuve, par l’expérimentation, que l’on peut, en moins d’un an, construire un outil fonctionnel permettant de mieux utiliser certaines données, par l’enrichissement, le croisement, la visualisation, ou la montée en qualité. Le dispositif EIG permet de répondre à cet objectif en dédiant deux ingénieurs de haut niveau à un défi qui correspond à leurs compétences, au sein d’une structure transverse, où ils bénéficient d’une large autonomie, mais aussi d’un tutorat et d’outils adaptés. »"
 project:
   general:
-    name: matchID
-    repo: matchID-project
-  backend:
-    name: Backend
-    repo: matchID-project/backend
-    download: "https://github.com/matchID-project/backend/archive/master.zip"
-  frontend:
-    name: Frontend
-    repo: matchID-project/frontend
-    download: "https://github.com/matchID-project/frontend/archive/master.zip"
-  examples:
-    name: Examples
-    repo: matchID-project/examples
-    download: "https://github.com/matchID-project/examples/archive/master.zip"
+    name: previsecours
+    repo: previsecours
 github_url: "https://github.com/"
 linkedin_url : "https://linkedin.com/in/"
 twitter_url : "https://twitter.com/"
