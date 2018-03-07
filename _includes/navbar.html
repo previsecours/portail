@@ -23,10 +23,10 @@
             <i class="fa fa-bar-chart" aria-hidden="true"></i>
           </span> les viz
         </a>
-        <a href="tutorial" class="navbar-item {% if page.url == '/tutorial' %}has-text-primary{% endif %}">
+        <a href="/previsecours-slides/" class="navbar-item">
           <span class="icon">
             <i class="fa fa-book" aria-hidden="true"></i>
-          </span> Docs
+          </span> Présentations
         </a>
       </div>
 
@@ -44,62 +44,12 @@
             <span>Tweet</span>
           </a>
         </div>
-        <div class="navbar-item has-dropdown is-hoverable is-boxed">
+        <div class="navbar-item is-hoverable is-boxed">
           <a class="navbar-link" target="_blank" href="{{ site.project.general.repo | prepend: site.github_url }}">
             <span class="icon">
               <i class="fa fa-github"></i>
             </span> Repositories
           </a>
-
-          <div class="navbar-dropdown">
-            <a class="navbar-item" target="_blank" href="{{ site.project.backend.repo | prepend: site.github_url }}">
-              <span class="icon">
-                <i class="fa fa-github"></i>
-              </span>
-              <span>{{ site.project.backend.name }}</span>
-            </a>
-            <a class="navbar-item" target="_blank" href="{{ site.project.frontend.repo | prepend: site.github_url }}">
-              <span class="icon">
-                <i class="fa fa-github"></i>
-              </span>
-              <span>{{ site.project.frontend.name }}</span>
-            </a>
-            <a class="navbar-item" target="_blank" href="{{ site.project.examples.repo | prepend: site.github_url }}">
-              <span class="icon">
-                <i class="fa fa-github"></i>
-              </span>
-              <span>{{ site.project.examples.name }}</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="navbar-item has-dropdown is-hoverable is-boxed">
-          <a class="navbar-link">
-            <span class="icon">
-              <i class="fa fa-download"></i>
-            </span> Download
-          </a>
-
-          <div class="navbar-dropdown">
-            <a class="navbar-item" href="{{ site.project.backend.download }}">
-              <span class="icon">
-                <i class="fa fa-download"></i>
-              </span>
-              <span>{{ site.project.backend.name }}</span>
-            </a>
-            <a class="navbar-item" href="{{ site.project.frontend.download }}">
-              <span class="icon">
-                <i class="fa fa-download"></i>
-              </span>
-              <span>{{ site.project.frontend.name }}</span>
-            </a>
-            <a class="navbar-item" href="{{ site.project.examples.download }}">
-              <span class="icon">
-                <i class="fa fa-download"></i>
-              </span>
-              <span>{{ site.project.examples.name }}</span>
-            </a>
-          </div>
         </div>
       </div>
     </div>
