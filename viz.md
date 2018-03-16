@@ -1,6 +1,6 @@
 ---
 layout: visual
-permalink: Viz
+permalink: viz
 description: Realisées à partir des données sur les interventions du SDIS de l'Essonne
 title: Visualisations
 width: is-8
