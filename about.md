@@ -1,7 +1,7 @@
 ---
 layout: default
 permalink: about
-description: The story behind matchID
+description: Qui sommes-nous ?
 title: About
 width: is-8
 ---
