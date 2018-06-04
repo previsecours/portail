@@ -32,7 +32,7 @@ Ainsi, l'evolution _long terme_ est mise en avant
 
 # **Répartition** des communes selon les zones de couverture des casernes
 ----
-Du aux mailles standards d'aggrégation des données, nos travaux sont basés sur la commune. Problème, certaines communes sont à cheval sur plusieurs zones de couverture. Pour travailer au niveau des zone de couverture, nous attribuons répartissons les interventions d'une commune selon un calcul basé sur les latitudes et longitutdes de 80.000 opérations. Cette visualisation par commune en montre le résultat:  
+Dû aux standards d'aggrégation des données, nos travaux sont basés sur la commune. Problème, certaines communes sont à cheval sur plusieurs zones de couverture. Pour travailler au niveau des zones de couverture, nous répartissons les interventions des commune selon un calcul basé sur les latitudes et longitutdes de 80.000 opérations. Cette visualisation par commune en montre le résultat:  
 
 Ainsi, l'evolution _long terme_ est mise en avant
 <iframe id="freshwidget-frame" src="https://algo.previsecours.fr/dip/api/webapps/view?projectKey=PRVISECOURSVISUALISATIONDFINITIF&webAppId=DBoeDrZ&apiKey=lDiPUif4AaNr9CkQOCT3kNcxQxk43kqE" scrolling="auto" allowtransparency="true" style="height: 500px; width: 100%;" frameborder="0"> </div></iframe>
