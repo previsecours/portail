@@ -9,15 +9,10 @@ width: is-8
 # Entrepreneur d'Intérêt Général (EIG)
 ----
 
-At the end of 2016, the French President launched a new program largely inspired by Barack Obama's Presidential Innovation Fellows (PIF).
+Le Programme [Entrepreneur d'Intérêt Général](https://entrepreneur-interet-general.etalab.gouv.fr/) a été lancé en 2016 par la Présidence de la République.
 
-This program was called [Entrepreneur d'Intérêt Général](https://entrepreneur-interet-general.etalab.gouv.fr/) and the first session took place from January 2017 to October 2017.
+Le principe de ce programme ? Constituer une promotion de talents extérieurs à l’administration, recrutés pour 10 mois, pour résoudre, par leurs compétences numériques d’exception et grâce aux données, des défis d’intérêt général, au sein des ministères. C'est donc une nouvelle manière de recruter des talents au sein de l’administration et de contribuer à la transformation numérique.
 
-It 2018, the 2nd promotion of Entrepreneurs d'Intérêt Général started their mission. Guillaume and Tiphaine were picked for a challenge at the Ministère de l'Intérieur, under the supervision of Daniel ANSELLEM and Fabien ANTOINE.
+En 2018, Guillaume and Tiphaine ont été choisis par un jury pour la mission du Ministère de l'Intérieur: PreviSecours. Ils sont sous la supervision de Daniel ANSELLEM and Fabien ANTOINE.
 
-
-# The challenge
-----
-
-__The challenge [`Prévisecours`](https://entrepreneur-interet-general.etalab.gouv.fr/defi/2017/09/26/previsecours/) consists in producing a prediction model to help firemen make better ressources allocation in the Essonne departement.__
-
+Le défi est de mettre au point un modèle prédictif des interventions des pompiers, afin d'optimiser en amont les ressources, humaines et matérielles, à déployer sur le territoire

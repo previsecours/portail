@@ -7,9 +7,9 @@ width: is-12
 ---
 <section class="section">
   <div class="tile is-ancestor">
-    <div class="tile is-vertical is-8">
+    <div class="tile is-vertical is-12">
       <div class="tile">
-        <div class="tile is-parent">
+        <div class="tile is-parent  is-3">
           <a href="about" class="tile is-child notification is-light">
             <p class="title">Les acteurs</p>
             <figure class="image alpha-png-background">
@@ -19,54 +19,79 @@ width: is-12
               <img src="/assets/images/mi.svg" style="width:10em" alt="Ministère de l'Intérieur & Etelab">
             </figure>
             <figure class="image alpha-png-background">
-              <img src="/assets/images/sdis91.jpg" style="width:6em" alt="SDIS 91">
+              <img src="/assets/images/sdis91.png" style="width:6em" alt="SDIS 91">
             </figure>
 
-          
+
           </a>
         </div>
         <div class="tile is-parent is-vertical">
-          <a href="about" class="tile is-child notification is-danger">
+          <a href="about" class="tile is-child notification is-danger" style="background-color: #D72C16">
             <p class="title">La problématique</p>
             <p class="contact">
-              En 2016, les sapeurs-pompiers ont effectué plus de 4 500 000 interventions en France. Chacune d’entre elles suppose la mise en œuvre d’une véritable logistique humaine et matérielle. Celle-ci est d’autant plus complexe que le volume d’interventions est volatile, les lieux variables, les horaires fluctuants… 
+              En 2016, les sapeurs-pompiers ont effectué plus de 4 500 000 interventions en France. Chacune d’entre elles suppose la mise en œuvre d’une véritable logistique humaine et matérielle. Celle-ci est d’autant plus complexe que le volume d’interventions est volatile, les lieux variables, les horaires fluctuants…
             </p>
+            <p style="font-size:4em; text-align:right; font-weight: bold"> <span>4 500 000</span></p>
+          </a>
+        </div>
+        <div class="tile is-parent">
+          <a href="/previsecours-slides" class="tile is-child notification is-info" style="background-color: #2988BC">
+            <div class="content">
+              <p class="title">Que faire?</p>
+              <p class="subtitle">
+                  Mettre au point un modèle prédictif des interventions
+              </p>
+              <figure class="image">
+                <img src="/assets/images/ml.png" style="width:7em; -webkit-filter: invert(1); filter: invert(1);" alt="machine learning">
+              </figure>
+              <p class="content">
+                  Un modèle prédictif du volume d’interventions et de leur géolocalisation peut permettre d’anticiper les moyens opérationnels à mobiliser au sein des différentes casernes. Une meilleure gestion prévisionnelle des moyens est de nature à répondre aux demandes d’intervention plus rapidement en mobilisant un maximum de moyens uniquement lorsque cela est utile.
+
+                  Ce projet est réalisé en partenariat avec les sapeurs-pompiers de l’Essonne qui mettent à disposition leurs données et connaissances du terrain.
+              </p>
+            </div>
           </a>
         </div>
 
       </div>
-      <div class="tile is-parent">
-        <a href="/previsecours-slides" class="tile is-child notification is-warning">
-          <p class="title">Méthode et Résultats</p>
-          <p class="subtitle">Méthode</p>
-          <p class="contact">
-            1. Discussion avec les sapeurs-pompiers, puis recupération d'un maximum de donnée qui pourraient etre en lien avec les interventions des pompiers. 
-          </p>
-          <p class="contact">
-            2. Etablissement des corrélations entre interventions et facteurs externes, puis création des prédictions et de l'interface de visualisation
-          </p>
-          <p class="subtitle">Résultats</p>
-          <p class="contact">
-            Les facteurs les plus corrélés avec les interventions des pompiers, autre que l'historique des interventions sont de facon simplifies (plus de 190 facteurs rentrent en compte):
-            allergies, météo, pollution et IDH2. 
-          </p>
-        </a>
-      </div>
-    </div>
-    <div class="tile is-parent">
-      <a href="/previsecours-slides" class="tile is-child notification is-info">
-        <div class="content">
-          <p class="title">Le défi</p>
-          <p class="subtitle">
-              Mettre au point un modèle prédictif des interventions
-          </p>
-          <p class="content">
-              Un modèle prédictif du volume d’interventions et de leur géolocalisation peut permettre d’anticiper les moyens opérationnels à mobiliser au sein des différentes casernes. Une meilleure gestion prévisionnelle des moyens est de nature à répondre aux demandes d’intervention plus rapidement en mobilisant un maximum de moyens uniquement lorsque cela est utile.
-
-              Ce projet est réalisé en partenariat avec les sapeurs-pompiers de l’Essonne qui mettent à disposition leurs données et connaissances du terrain.
-          </p>
+      <div class="tile">
+        <div class="tile is-parent">
+          <a href="/previsecours-slides" class="tile is-child notification is-warning" style="background-color: #F5CA99">
+            <p class="title">Méthodologie</p>
+            <p class="subtitle">Rencontre des pompiers, et aquisition de données</p>
+            <p class="contact">
+              Discussion avec les sapeurs-pompiers pour orienter nos recherches, puis recupération d'un maximum de donnée qui pourraient etre en lien avec les interventions des pompiers.
+            </p>
+            <figure class="image">
+              <img src="/assets/images/human.png" style="width:5em; opacity: 0.7;" alt="machine learning">
+            </figure>
+            <p class="subtitle">Calculs de corrélation, et machine learning</p>
+            <p class="contact">
+              Etablissement des corrélations entre interventions et facteurs externes, puis création des prédictions. Mise en place de l'interface de visualisation pour l'exploitation des résultats
+            </p>
+            <figure class="image">
+              <img src="/assets/images/machine.png" style="width:5em; opacity: 0.7;" alt="machine learning">
+            </figure>
+          </a>
         </div>
-      </a>
+        <div class="tile is-parent">
+          <a href="/assets/pdf/correlations.pdf" class="tile is-child notification is-warning" style="background-color: #FFB745">
+            <p class="title">Résultats</p>
+            <p class="subtitle">Facteurs les plus corrélés</p>
+            <p class="contact">
+              Les facteurs les plus corrélés avec les interventions des pompiers, sont diponibles en cliquant ici.
+            </p>
+            <figure class="image">
+              <img src="/assets/images/correlation.png" style="width:10em; opacity: 0.7;" alt="machine learning">
+            </figure>
+
+            <p class="subtitle">Modèles prédictifs</p>
+            <p class="contact">
+              Les modèles prédictifs seront bientôt diponibles.
+            </p>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
