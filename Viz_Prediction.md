@@ -2,11 +2,11 @@
 layout: visual
 permalink: Viz_Prediction
 description: Realisées à partir des données sur les interventions du SDIS de l'Essonne
-title: Prédictions
+title: Analyse sur les Prédictions
 width: is-8
 ---
 
-# **Confrontation** des __prédictions__ d'intervention aux interventions __observées__ par commune en 2017 (par semaines)
+# **Confrontation** des premières __prédictions__ d'intervention aux interventions __observées__ par commune en 2017 (par semaines)
 ----  
 Un premier modèle de prédiction d'intervention a été crée en se basant uniquement sur les 44 premières semaines de 2017.
 Pour des questions de facilité, il a été decidé de découper le nombre d'interventions en 4 catégories:   
@@ -20,3 +20,8 @@ Le modèle a été ensuite utilisé pour prédire les interventions des semaines
   * En rouge: prédiction qui s'est révelée fausse  
 
 <iframe id="freshwidget-frame" src="https://algo.previsecours.fr/dip/api/webapps/view?projectKey=PRVISECOURSVISUALISATIONDFINITIF&webAppId=Ug7wg82&apiKey=nYu9nKEZw1fr8THDp2zVJTyrKMf5siyM" scrolling="auto" allowtransparency="true" style="height: 500px; width: 100%;" frameborder="0"> </div></iframe>
+
+
+# Suite
+---
+Nous travaillons actuellement sur les prédictions suivantes. Veuillez patientez quelques mois, ou nous contacter pour en savoir plus.

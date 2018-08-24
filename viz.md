@@ -37,5 +37,5 @@ Dû aux standards d'aggrégation des données, nos travaux sont basés sur la co
 <iframe id="freshwidget-frame" src="https://algo.previsecours.fr/dip/api/webapps/view?projectKey=PRVISECOURSVISUALISATIONDFINITIF&webAppId=DBoeDrZ&apiKey=lDiPUif4AaNr9CkQOCT3kNcxQxk43kqE" scrolling="auto" allowtransparency="true" style="height: 500px; width: 100%;" frameborder="0"> </div></iframe>
 
 <div class="has-text-centered" style="margin-top:50px">
-  <a type="button" href="Viz_Prediction" class="button is-link">Voir Predictions</a>
+  <a type="button" href="Viz_Prediction" class="button is-link">Analyse sur les premières Predictions</a>
 </div>
