@@ -24,4 +24,4 @@ Le modèle a été ensuite utilisé pour prédire les interventions des semaines
 
 # Suite
 ---
-Nous travaillons actuellement sur les prédictions suivantes. Veuillez patientez quelques mois, ou nous contacter pour en savoir plus.
+Nous travaillons actuellement sur les prédictions suivantes. Veuillez patienter quelques mois, ou nous contacter pour en savoir plus.
