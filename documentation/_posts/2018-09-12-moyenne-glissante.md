@@ -24,3 +24,6 @@ La troisième période d'observation débute le 1 janvier 2018 et se termine le 
 
 Alors, la moyenne glissante sera:  
 (3 * 5 + 6 * 5 + 6 * 5) / (3 * 5) = __4,3__
+
+![illustration](/assets/images/illustration_moyenne_glissante.png "illustration_moyenne_glissante")
+
