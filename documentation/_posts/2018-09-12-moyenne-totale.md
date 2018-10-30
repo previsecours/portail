@@ -8,19 +8,20 @@ comments: true
 ---
 
 
-La moyenne totale est calculée en effectuant la moyenne du nombre d'interventions sur l'ensemble des 3 années passées.   
+La moyenne totale des interventions est calculée sur l'ensemble des 3 années passées.   
 
 Prenons par exemple:  
 1. comme échelle de temps la __semaine__  
 2. comme maille géographique la __commune__  
 3. comme catégorie les __accidents__  
 
-Disons que nous nous plaçons sur la commune de _Juvisy_, et que nous sommes le 15 janvier 2019
+Imaginons être le 15 janvier 2019. Les nombres d'accidents sur la commune _"X"_, sont les suivants:
 
 
-La première année débute le 15 janvier 2016 et se termine le 15 janvier 2017, et comporte 52 semaines. Disons (pour simplifier) que sur toute cette période, on a eu __3__ accidents par semaine à _Juvisy_.  
-La seconde année débute le 15 janvier 2017 et se termine le 15 janvier 2018, et comporte 52 semaines. Disons (pour simplifier) que sur toute cette période, on a eu __6__ accidents par semaine à _Juvisy_.  
-La troisième année débute le 15 janvier 2018 et se termine le 15 janvier 2019, et comporte 52 semaines. Disons (pour simplifier) que sur toute cette période, on a eu __6__ accidents par semaine à _Juvisy_.  
+* Pour la première année débutant le 15 janvier 2016 et se terminant le 15 janvier 2017 (sur 52 semaines), __3 accidents__ par semaine ont été recensés
+* Pour la seconde année débutant le 15 janvier 2017 et se terminant le 15 janvier 2018 (sur 52 semaines), __6 accidents__ par semaine ont été recensés
+* Pour la première année débutant le 15 janvier 2018 et se terminant le 15 janvier 2019 (sur 52 semaines), __6 accidents__ par semaine ont été recensés
 
-Alors, la moyenne totale sera donc:  
-(2 * 52 + 6 * 52 + 6 * 52) / (52 * 3) = __5__
+
+Alors, la moyenne totale s'élèverait à:   
+(3 * 52 + 6 * 52 + 6 * 52) / (52 * 3) = __5__
