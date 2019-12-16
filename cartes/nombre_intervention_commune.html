@@ -747,40 +747,7 @@ crossorigin=""></script>
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
     </div>
-
-        <script id="dku_js_base">
-            dataiku.setAPIKey('xy3sssYuLEFaO4zEz2VJqoj7kEOnUnew');
-            dataiku.setDefaultProjectKey('PRVISECOURSVISUALISATIONDFINITIF');
-            dataiku.getWebAppBackendUrl = function(path) {
-                return '/web-apps-backends/PRVISECOURSVISUALISATIONDFINITIF/86c6EHS' + (path.startsWith('/') ? '' : '/') + path;
-            };
-            dataiku.getWebAppConfig = function() {
-                return {};
-            };
-            dataiku.getWebAppDesc = function() {
-                return {
-  "id": "STANDARD",
-  "meta": {
-    "label": "Standard",
-    "description": "Standard HTML webapp with JavaScript, CSS and an optional python server",
-    "icon": "icon-code"
-  }
-};
-            };
-            dataiku.checkWebAppParameters = function() {
-                dataiku.getWebAppDesc().params.forEach(p => {
-                    if (p.mandatory) {
-                        var val = dataiku.getWebAppConfig()[p.name];
-                        if (val == undefined || val == "") {
-                            throw new Error("Mandatory parameter '" + p.name + "' not specified.");
-                        }
-                    }
-                });
-            };
-            // backwards compatibility:
-            var getWebAppBackendUrl = dataiku.getWebAppBackendUrl;
-        </script>
-        <script id="dku_js">(function(){  //useful for color scale
+        <script id="dku_js">
 var maxNbr = 0;
 var minNbr = 0;
 //useful for keeping in mind what geoJson we want to delete before drawing the new one
@@ -929,6 +896,6 @@ function btnClick(year){
     /////    }).addTo(map);
     /////    //console.log(geoJSONforMap)
     /////});
-}}  )()</script>
+}</script>
     </body>
 </html>
