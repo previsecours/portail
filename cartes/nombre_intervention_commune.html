@@ -1,0 +1,934 @@
+<html>
+    <head>
+        <title>essonne_parCom_diffInterParAn_2010_2017</title>
+        <style id="dku_css" media="screen" type="text/css">#map {
+	height: 100%;
+}
+
+.containerReWrite{
+    padding: 0px;
+    max-width: 100%;
+    height: 100%;
+    width:100%;
+    background: lightgray;
+}
+
+.btnAround{
+    justify-content: space-around;
+    display: flex;
+    padding: 5px;
+    height: 50px;
+}
+
+
+
+/* custom styling for tooltip */
+
+.custom-popup .leaflet-popup-content-wrapper {
+  background:#2c3e50;
+  color:#fff;
+  font-size:16px;
+  line-height:24px;
+  }
+.custom-popup .leaflet-popup-content-wrapper{
+  color:rgba(255,255,255,0.5);
+  border-radius: 3px;
+  }
+.custom-popup .leaflet-popup-content{
+  margin: 15px 25px;
+  padding-top:10px;
+  }
+.custom-popup .leaflet-popup-tip-container {
+  width:35px;
+  height:15px;
+  margin-left:-25px;
+  }
+.custom-popup .leaflet-popup-tip {
+  border-left:15px solid transparent;
+  border-right:15px solid transparent;
+  border-top:15px solid #2c3e50;
+  background:#2c3e50;
+  margin: -14px auto 0;
+}
+.custom-popup .leaflet-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 8px 0px 0 4px;
+  border: none;
+  text-align: left;
+  width: 85%;
+  height: 20px;
+  line-height: 13px;
+  font: 10px/8px Tahoma, Verdana, sans-serif;
+  color: #c3c3c3;
+  text-decoration: none;
+  font-style: italic;
+  background: transparent;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+/* required styles from leaflet*/
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+position: absolute;
+left: 0;
+top: 0;
+}
+.leaflet-container {
+overflow: hidden;
+}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+-webkit-user-select: none;
+   -moz-user-select: none;
+        user-select: none;
+  -webkit-user-drag: none;
+}
+/* Safari renders non-retina tile on retina better with this, but Chrome is worse */
+.leaflet-safari .leaflet-tile {
+image-rendering: -webkit-optimize-contrast;
+}
+/* hack that prevents hw layers "stretching" when loading new tiles */
+.leaflet-safari .leaflet-tile-container {
+width: 1600px;
+height: 1600px;
+-webkit-transform-origin: 0 0;
+}
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+display: block;
+}
+/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */
+/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */
+.leaflet-container .leaflet-overlay-pane svg,
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer {
+max-width: none !important;
+max-height: none !important;
+}
+
+.leaflet-container.leaflet-touch-zoom {
+-ms-touch-action: pan-x pan-y;
+touch-action: pan-x pan-y;
+}
+.leaflet-container.leaflet-touch-drag {
+-ms-touch-action: pinch-zoom;
+/* Fallback for FF which doesn't support pinch-zoom */
+touch-action: none;
+touch-action: pinch-zoom;
+}
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+-ms-touch-action: none;
+touch-action: none;
+}
+.leaflet-container {
+-webkit-tap-highlight-color: transparent;
+}
+.leaflet-container a {
+-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+}
+.leaflet-tile {
+filter: inherit;
+visibility: hidden;
+}
+.leaflet-tile-loaded {
+visibility: inherit;
+}
+.leaflet-zoom-box {
+width: 0;
+height: 0;
+-moz-box-sizing: border-box;
+     box-sizing: border-box;
+z-index: 800;
+}
+/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
+.leaflet-overlay-pane svg {
+-moz-user-select: none;
+}
+
+.leaflet-pane         { z-index: 400; }
+
+.leaflet-tile-pane    { z-index: 200; }
+.leaflet-overlay-pane { z-index: 400; }
+.leaflet-shadow-pane  { z-index: 500; }
+.leaflet-marker-pane  { z-index: 600; }
+.leaflet-tooltip-pane   { z-index: 650; }
+.leaflet-popup-pane   { z-index: 700; }
+
+.leaflet-map-pane canvas { z-index: 100; }
+.leaflet-map-pane svg    { z-index: 200; }
+
+.leaflet-vml-shape {
+width: 1px;
+height: 1px;
+}
+.lvml {
+behavior: url(#default#VML);
+display: inline-block;
+position: absolute;
+}
+
+
+/* control positioning */
+
+.leaflet-control {
+position: relative;
+z-index: 800;
+pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+pointer-events: auto;
+}
+.leaflet-top,
+.leaflet-bottom {
+position: absolute;
+z-index: 1000;
+pointer-events: none;
+}
+.leaflet-top {
+top: 0;
+}
+.leaflet-right {
+right: 0;
+}
+.leaflet-bottom {
+bottom: 0;
+}
+.leaflet-left {
+left: 0;
+}
+.leaflet-control {
+float: left;
+clear: both;
+}
+.leaflet-right .leaflet-control {
+float: right;
+}
+.leaflet-top .leaflet-control {
+margin-top: 10px;
+}
+.leaflet-bottom .leaflet-control {
+margin-bottom: 10px;
+}
+.leaflet-left .leaflet-control {
+margin-left: 10px;
+}
+.leaflet-right .leaflet-control {
+margin-right: 10px;
+}
+
+
+/* zoom and fade animations */
+
+.leaflet-fade-anim .leaflet-tile {
+will-change: opacity;
+}
+.leaflet-fade-anim .leaflet-popup {
+opacity: 0;
+-webkit-transition: opacity 0.2s linear;
+   -moz-transition: opacity 0.2s linear;
+     -o-transition: opacity 0.2s linear;
+        transition: opacity 0.2s linear;
+}
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+opacity: 1;
+}
+.leaflet-zoom-animated {
+-webkit-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+        transform-origin: 0 0;
+}
+.leaflet-zoom-anim .leaflet-zoom-animated {
+will-change: transform;
+}
+.leaflet-zoom-anim .leaflet-zoom-animated {
+-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
+   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
+     -o-transition:      -o-transform 0.25s cubic-bezier(0,0,0.25,1);
+        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
+}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+-webkit-transition: none;
+   -moz-transition: none;
+     -o-transition: none;
+        transition: none;
+}
+
+.leaflet-zoom-anim .leaflet-zoom-hide {
+visibility: hidden;
+}
+
+
+/* cursors */
+
+.leaflet-interactive {
+cursor: pointer;
+}
+.leaflet-grab {
+cursor: -webkit-grab;
+cursor:    -moz-grab;
+}
+.leaflet-crosshair,
+.leaflet-crosshair .leaflet-interactive {
+cursor: crosshair;
+}
+.leaflet-popup-pane,
+.leaflet-control {
+cursor: auto;
+}
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-grab .leaflet-interactive,
+.leaflet-dragging .leaflet-marker-draggable {
+cursor: move;
+cursor: -webkit-grabbing;
+cursor:    -moz-grabbing;
+}
+
+/* marker & overlays interactivity */
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+pointer-events: none;
+}
+
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive {
+pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+pointer-events: auto;
+}
+
+/* visual tweaks */
+
+.leaflet-container {
+background: #ddd;
+outline: 0;
+}
+.leaflet-container a {
+color: #0078A8;
+}
+.leaflet-container a.leaflet-active {
+outline: 2px solid orange;
+}
+.leaflet-zoom-box {
+border: 2px dotted #38f;
+background: rgba(255,255,255,0.5);
+}
+
+
+/* general typography */
+.leaflet-container {
+font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+
+/* general toolbar styles */
+
+.leaflet-bar {
+box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+border-radius: 4px;
+}
+.leaflet-bar a,
+.leaflet-bar a:hover {
+background-color: #fff;
+border-bottom: 1px solid #ccc;
+width: 26px;
+height: 26px;
+line-height: 26px;
+display: block;
+text-align: center;
+text-decoration: none;
+color: black;
+}
+.leaflet-bar a,
+.leaflet-control-layers-toggle {
+background-position: 50% 50%;
+background-repeat: no-repeat;
+display: block;
+}
+.leaflet-bar a:hover {
+background-color: #f4f4f4;
+}
+.leaflet-bar a:first-child {
+border-top-left-radius: 4px;
+border-top-right-radius: 4px;
+}
+.leaflet-bar a:last-child {
+border-bottom-left-radius: 4px;
+border-bottom-right-radius: 4px;
+border-bottom: none;
+}
+.leaflet-bar a.leaflet-disabled {
+cursor: default;
+background-color: #f4f4f4;
+color: #bbb;
+}
+
+.leaflet-touch .leaflet-bar a {
+width: 30px;
+height: 30px;
+line-height: 30px;
+}
+.leaflet-touch .leaflet-bar a:first-child {
+border-top-left-radius: 2px;
+border-top-right-radius: 2px;
+}
+.leaflet-touch .leaflet-bar a:last-child {
+border-bottom-left-radius: 2px;
+border-bottom-right-radius: 2px;
+}
+
+/* zoom control */
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+font: bold 18px 'Lucida Console', Monaco, monospace;
+text-indent: 1px;
+}
+
+.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
+font-size: 22px;
+}
+
+
+/* layers control */
+
+.leaflet-control-layers {
+box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+background: #fff;
+border-radius: 5px;
+}
+.leaflet-control-layers-toggle {
+background-image: url(images/layers.png);
+width: 36px;
+height: 36px;
+}
+.leaflet-retina .leaflet-control-layers-toggle {
+background-image: url(images/layers-2x.png);
+background-size: 26px 26px;
+}
+.leaflet-touch .leaflet-control-layers-toggle {
+width: 44px;
+height: 44px;
+}
+.leaflet-control-layers .leaflet-control-layers-list,
+.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
+display: none;
+}
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+display: block;
+position: relative;
+}
+.leaflet-control-layers-expanded {
+padding: 6px 10px 6px 6px;
+color: #333;
+background: #fff;
+}
+.leaflet-control-layers-scrollbar {
+overflow-y: scroll;
+overflow-x: hidden;
+padding-right: 5px;
+}
+.leaflet-control-layers-selector {
+margin-top: 2px;
+position: relative;
+top: 1px;
+}
+.leaflet-control-layers label {
+display: block;
+}
+.leaflet-control-layers-separator {
+height: 0;
+border-top: 1px solid #ddd;
+margin: 5px -10px 5px -6px;
+}
+
+/* Default icon URLs */
+.leaflet-default-icon-path {
+background-image: url(images/marker-icon.png);
+}
+
+
+/* attribution and scale controls */
+
+.leaflet-container .leaflet-control-attribution {
+background: #fff;
+background: rgba(255, 255, 255, 0.7);
+margin: 0;
+}
+.leaflet-control-attribution,
+.leaflet-control-scale-line {
+padding: 0 5px;
+color: #333;
+}
+.leaflet-control-attribution a {
+text-decoration: none;
+}
+.leaflet-control-attribution a:hover {
+text-decoration: underline;
+}
+.leaflet-container .leaflet-control-attribution,
+.leaflet-container .leaflet-control-scale {
+font-size: 11px;
+}
+.leaflet-left .leaflet-control-scale {
+margin-left: 5px;
+}
+.leaflet-bottom .leaflet-control-scale {
+margin-bottom: 5px;
+}
+.leaflet-control-scale-line {
+border: 2px solid #777;
+border-top: none;
+line-height: 1.1;
+padding: 2px 5px 1px;
+font-size: 11px;
+white-space: nowrap;
+overflow: hidden;
+-moz-box-sizing: border-box;
+     box-sizing: border-box;
+
+background: #fff;
+background: rgba(255, 255, 255, 0.5);
+}
+.leaflet-control-scale-line:not(:first-child) {
+border-top: 2px solid #777;
+border-bottom: none;
+margin-top: -2px;
+}
+.leaflet-control-scale-line:not(:first-child):not(:last-child) {
+border-bottom: 2px solid #777;
+}
+
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+box-shadow: none;
+}
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+border: 2px solid rgba(0,0,0,0.2);
+background-clip: padding-box;
+}
+
+
+/* popup */
+
+.leaflet-popup {
+position: absolute;
+text-align: center;
+margin-bottom: 20px;
+}
+.leaflet-popup-content-wrapper {
+padding: 1px;
+text-align: left;
+border-radius: 12px;
+}
+.leaflet-popup-content {
+margin: 13px 19px;
+line-height: 1.4;
+}
+.leaflet-popup-content p {
+margin: 18px 0;
+}
+.leaflet-popup-tip-container {
+width: 40px;
+height: 20px;
+position: absolute;
+left: 50%;
+margin-left: -20px;
+overflow: hidden;
+pointer-events: none;
+}
+.leaflet-popup-tip {
+width: 17px;
+height: 17px;
+padding: 1px;
+
+margin: -10px auto 0;
+
+-webkit-transform: rotate(45deg);
+   -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+     -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+background: white;
+color: #333;
+box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+}
+.leaflet-container a.leaflet-popup-close-button {
+position: absolute;
+top: 0;
+right: 0;
+padding: 4px 4px 0 0;
+border: none;
+text-align: center;
+width: 18px;
+height: 14px;
+font: 16px/14px Tahoma, Verdana, sans-serif;
+color: #c3c3c3;
+text-decoration: none;
+font-weight: bold;
+background: transparent;
+}
+.leaflet-container a.leaflet-popup-close-button:hover {
+color: #999;
+}
+.leaflet-popup-scrolled {
+overflow: auto;
+border-bottom: 1px solid #ddd;
+border-top: 1px solid #ddd;
+}
+
+.leaflet-oldie .leaflet-popup-content-wrapper {
+zoom: 1;
+}
+.leaflet-oldie .leaflet-popup-tip {
+width: 24px;
+margin: 0 auto;
+
+-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
+filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+}
+.leaflet-oldie .leaflet-popup-tip-container {
+margin-top: -1px;
+}
+
+.leaflet-oldie .leaflet-control-zoom,
+.leaflet-oldie .leaflet-control-layers,
+.leaflet-oldie .leaflet-popup-content-wrapper,
+.leaflet-oldie .leaflet-popup-tip {
+border: 1px solid #999;
+}
+
+
+/* div icon */
+
+.leaflet-div-icon {
+background: #fff;
+border: 1px solid #666;
+}
+
+
+/* Tooltip */
+/* Base styles for the element that has a tooltip */
+.leaflet-tooltip {
+position: absolute;
+padding: 6px;
+background-color: #fff;
+border: 1px solid #fff;
+border-radius: 3px;
+color: #222;
+white-space: nowrap;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+pointer-events: none;
+box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+.leaflet-tooltip.leaflet-clickable {
+cursor: pointer;
+pointer-events: auto;
+}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+position: absolute;
+pointer-events: none;
+border: 6px solid transparent;
+background: transparent;
+content: "";
+}
+
+/* Directions */
+
+.leaflet-tooltip-bottom {
+margin-top: 6px;
+}
+.leaflet-tooltip-top {
+margin-top: -6px;
+}
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-top:before {
+left: 50%;
+margin-left: -6px;
+}
+.leaflet-tooltip-top:before {
+bottom: 0;
+margin-bottom: -12px;
+border-top-color: #fff;
+}
+.leaflet-tooltip-bottom:before {
+top: 0;
+margin-top: -12px;
+margin-left: -6px;
+border-bottom-color: #fff;
+}
+.leaflet-tooltip-left {
+margin-left: -6px;
+}
+.leaflet-tooltip-right {
+margin-left: 6px;
+}
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+top: 50%;
+margin-top: -6px;
+}
+.leaflet-tooltip-left:before {
+right: 0;
+margin-right: -12px;
+border-left-color: #fff;
+}
+.leaflet-tooltip-right:before {
+left: 0;
+margin-left: -12px;
+border-right-color: #fff;
+}
+</style>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="/static/dataiku/js/dataiku.client.js"></script>
+<script type="text/javascript" src="/assets/javascript/d3.min.js"></script>
+<script type="text/javascript" src="/html_app/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/html_app/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/html_app/bower_components/font-awesome/css/font-awesome.min.css" />
+<script type="text/javascript" src="/html_app/bower_components/nvd3/build/nv.d3.js"></script>
+<link rel="stylesheet" href="/html_app/bower_components/nvd3/build/nv.d3.min.css" />
+<script type="text/javascript" src="/assets/data/parCom2017.json"></script>
+
+    </head>
+
+    <body>
+        <div id="dku_html"><!-- Body of your app -->
+<div class="container containerReWrite" >
+    <span class="btnAround">
+        <button onclick="btnClick(2011)" type="button" name="button" class="btn btn-default hoverBtn">2011</button>
+        <button onclick="btnClick(2012)" type="button" name="button" class="btn btn-default hoverBtn">2012</button>
+        <button onclick="btnClick(2013)" type="button" name="button" class="btn btn-default hoverBtn">2013</button>
+        <button onclick="btnClick(2014)" type="button" name="button" class="btn btn-default hoverBtn">2014</button>
+        <button onclick="btnClick(2015)" type="button" name="button" class="btn btn-default hoverBtn">2015</button>
+        <button onclick="btnClick(2016)" type="button" name="button" class="btn btn-default hoverBtn">2016</button>
+        <button onclick="btnClick(2017)" type="button" name="button" class="btn btn-default hoverBtn">2017</button>
+        <span><input type="checkbox" id="onlyBigCommunes" value="onlyBigCommunes"><label for="onlyBigCommunes">+20 <i class='icon-ambulance'></i></label></input></span>
+    </span>
+    <div class="col-xs-12 custom-popup" id="map"></div>
+</div>
+    
+    
+    
+<!-- Ressources I need for this project -->
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+ 
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+crossorigin=""></script>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+    </div>
+
+        <script id="dku_js_base">
+            dataiku.setAPIKey('xy3sssYuLEFaO4zEz2VJqoj7kEOnUnew');
+            dataiku.setDefaultProjectKey('PRVISECOURSVISUALISATIONDFINITIF');
+            dataiku.getWebAppBackendUrl = function(path) {
+                return '/web-apps-backends/PRVISECOURSVISUALISATIONDFINITIF/86c6EHS' + (path.startsWith('/') ? '' : '/') + path;
+            };
+            dataiku.getWebAppConfig = function() {
+                return {};
+            };
+            dataiku.getWebAppDesc = function() {
+                return {
+  "id": "STANDARD",
+  "meta": {
+    "label": "Standard",
+    "description": "Standard HTML webapp with JavaScript, CSS and an optional python server",
+    "icon": "icon-code"
+  }
+};
+            };
+            dataiku.checkWebAppParameters = function() {
+                dataiku.getWebAppDesc().params.forEach(p => {
+                    if (p.mandatory) {
+                        var val = dataiku.getWebAppConfig()[p.name];
+                        if (val == undefined || val == "") {
+                            throw new Error("Mandatory parameter '" + p.name + "' not specified.");
+                        }
+                    }
+                });
+            };
+            // backwards compatibility:
+            var getWebAppBackendUrl = dataiku.getWebAppBackendUrl;
+        </script>
+        <script id="dku_js">(function(){  //useful for color scale
+var maxNbr = 0;
+var minNbr = 0;
+//useful for keeping in mind what geoJson we want to delete before drawing the new one
+var geoJSONforMap = new L.geoJSON();
+
+//where we get all geo related information for drawing
+var communes_geojson_endpoint = 'https://geo.api.gouv.fr/departements/91/communes?fields=contour&format=geojson&geometry=contour';
+const req = new XMLHttpRequest();
+req.open('GET', communes_geojson_endpoint, false); 
+req.send(null);
+var communes_geojson = (req.status === 200 && typeof req.responseText === 'string') ? JSON.parse(req.responseText) : false;
+
+
+var map = L.map('map').setView([48.6, 2.4], 9);
+var cartodb =  new  L.tileLayer('https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+var OpenStreetMap_BlackAndWhite = new L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+    maxZoom: 20,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+map.addLayer(OpenStreetMap_BlackAndWhite);
+
+//launch initial drawing
+btnClick(2011)
+
+
+//function definition
+function onEachFeature(feature, layer) {
+    if (feature.properties && feature.properties.nom) {
+        var threePoints = (feature.properties.nom.length > 12) ? "..." : "";
+        layer.bindPopup("<div><i class='icon-ambulance'></i> " + feature.properties.diffPerc + "% (" + feature.properties.diff + ")" + "</div> <i class='leaflet-title'>" + feature.properties.nom.slice(0, 12) + threePoints +"</i>");
+    }
+}
+
+
+function _perc2color(perc,scale,colorMin,colorMax) {
+    color = d3.scale.linear().domain([1,scale])
+          .interpolate(d3.interpolateHcl)
+          .range([d3.rgb(colorMin), d3.rgb(colorMax)]);
+    return color(perc);
+}
+
+
+function _perc2colorRED(perc,scale){ return _perc2color(perc,100,"#ffe0e0","#ff0000");   }
+function _perc2colorGREEN(perc,scale){ return _perc2color(perc,100,"#d1ffd9","#0fbf00");   }
+
+function style(feature) {
+    var varForColorization = (feature.properties.diffPerc) ? parseFloat(feature.properties.diffPerc) : 0;
+    var colorCoded = '#ffffff';
+    if(varForColorization > 0){
+        colorCoded = _perc2colorRED(Math.round( varForColorization / maxNbr ), 100);
+    }else if(varForColorization < 0){
+        colorCoded = _perc2colorGREEN(Math.round( Math.abs(varForColorization / minNbr) ), 100);
+    }else{
+        colorCoded = '#ffffff';
+    }
+
+    
+    if($('#onlyBigCommunes')[0].checked && feature.properties.nbr < 20){ colorCoded = '#ffffff'; }
+    
+    return {
+            weight: 1,
+            opacity: 1,
+            color: '#FFFAFA',
+            dashArray: '2',
+            fillOpacity: 0.5,
+            fillColor: colorCoded,
+        };
+}
+
+
+function btnClick(year){
+    map.removeLayer(geoJSONforMap);
+    maxNbr = 0;
+    minNbr = 0;
+
+    var yearFormated = (typeof year === 'number' && Math.round(Number(year)) >= 2010 && Math.round(Number(year)) < 2020) ? Math.round(Number(year)) : 2010;
+
+         data[yearFormated].rows.forEach(item => {
+            var record = {}
+            item.forEach((key, i) => record[data[yearFormated].columns[i]] = key);
+            //console.log(record)
+
+            var varForColorization = (record["diffPerc"]) ? parseFloat(record["diffPerc"]) : 0;
+            var code = record["ope_code_insee"];
+            
+            if( !($('#onlyBigCommunes') && $('#onlyBigCommunes')[0].checked && record["nb_ope"] < 20) ){
+                    if(typeof varForColorization === 'number' && varForColorization > maxNbr){ maxNbr = varForColorization; }
+                    if(typeof varForColorization === 'number' && varForColorization < minNbr){ minNbr = varForColorization; }
+            }
+
+
+            var geojsonUnit = _.find(communes_geojson.features, function(obj){ return  code === obj.properties.code; } );
+            if(geojsonUnit && geojsonUnit.properties){
+                geojsonUnit.properties.nbr = record["nb_ope"]; 
+                geojsonUnit.properties.diff = record["diff"]; 
+                var percentage = record["diffPerc"] * 100;
+                var percentage = ( (new RegExp('-')).test(percentage.toString()) ) ? ""+percentage.toString() : "+"+percentage.toString();
+                geojsonUnit.properties.diffPerc = (percentage.indexOf(".") !== -1) ? percentage.substring(0, percentage.indexOf(".") +2 ) : percentage; 
+            }
+         });
+
+          geoJSONforMap = new L.geoJSON(communes_geojson, {
+              onEachFeature: onEachFeature,
+              style:style
+          }).addTo(map);
+
+
+
+    /////dataiku.fetch('sdis_2010_2017_suap_v0', {
+    /////        sampling : "head",
+    /////        filter :  "ope_annee == " + yearFormated.toString(),
+    /////        limit : 20000
+    /////    }, function (df) {
+
+    /////    // Add a map marker for each row on the dataset
+    /////    // Each marker is a circle. The size of the circle varies with the 'size' column values
+    /////    var nbRows = df.getNbRows();
+    /////    for (var i = 0; i < nbRows; i++) {
+    /////        var record = df.getRecord(i);
+
+    /////        var varForColorization = (record["diffPerc"]) ? parseFloat(record["diffPerc"]) : 0;
+    /////        var code = record["ope_code_insee"];
+    /////        
+    /////        if( !($('#onlyBigCommunes') && $('#onlyBigCommunes')[0].checked && record["nb_ope"] < 20) ){
+    /////                if(typeof varForColorization === 'number' && varForColorization > maxNbr){ maxNbr = varForColorization; }
+    /////                if(typeof varForColorization === 'number' && varForColorization < minNbr){ minNbr = varForColorization; }
+    /////        }
+
+
+    /////        var geojsonUnit = _.find(communes_geojson.features, function(obj){ return  code === obj.properties.code; } );
+    /////        if(geojsonUnit && geojsonUnit.properties){
+    /////            geojsonUnit.properties.nbr = record["nb_ope"]; 
+    /////            geojsonUnit.properties.diff = record["diff"]; 
+    /////            var percentage = record["diffPerc"] * 100;
+    /////            var percentage = ( (new RegExp('-')).test(percentage.toString()) ) ? ""+percentage.toString() : "+"+percentage.toString();
+    /////            geojsonUnit.properties.diffPerc = (percentage.indexOf(".") !== -1) ? percentage.substring(0, percentage.indexOf(".") +2 ) : percentage; 
+    /////        }
+    /////    };
+
+    /////    geoJSONforMap = new L.geoJSON(communes_geojson, {
+    /////        onEachFeature: onEachFeature,
+    /////        style:style
+    /////    }).addTo(map);
+    /////    //console.log(geoJSONforMap)
+    /////});
+}}  )()</script>
+    </body>
+</html>

@@ -42,6 +42,9 @@ plugins:
 #   style: compressed
 #   sass_dir: _sass
 
+collections:
+  cartes:
+    output: true
 
 exclude:
   - Gemfile

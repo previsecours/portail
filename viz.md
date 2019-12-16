@@ -9,7 +9,7 @@ width: is-8
 # **Nombre** total d'intervention par commune (par an)
 ----
 De 2010 à 2017
-<iframe id="freshwidget-frame" src="https://algo.previsecours.fr/dip/api/webapps/view?projectKey=PRVISECOURSVISUALISATIONDFINITIF&webAppId=ofW9eLx&apiKey=aeC4WKaibyp3ixDV3a2XeEAVpoMrlyS6" scrolling="auto" allowtransparency="true" style="height: 500px; width: 100%;" frameborder="0"> </div></iframe>
+<iframe id="freshwidget-frame" src="/cartes/nombre_intervention_commune" scrolling="auto" allowtransparency="true" style="height: 500px; width: 100%;" frameborder="0"> </div></iframe>
 
 
 # **Évolution** des interventions par commune (par an)
