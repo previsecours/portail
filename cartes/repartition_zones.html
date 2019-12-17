@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>essonne_nbrTot_parAn_parCom_2010_2017</title>
+        <title>essonne_repartition_zc_communes_2017</title>
         <style id="dku_css" media="screen" type="text/css">#map {
 	height: 100%;
 }
@@ -27,7 +27,7 @@
 .custom-popup .leaflet-popup-content-wrapper {
   background:#2c3e50;
   color:#fff;
-  font-size:16px;
+  font-size:14px;
   line-height:24px;
   }
 .custom-popup .leaflet-popup-content-wrapper{
@@ -54,11 +54,11 @@
   position: absolute;
   top: 0;
   left: 0;
-  padding: 8px 0px 0 4px;
+  padding: 4px 0px 0 4px;
   border: none;
   text-align: left;
   width: 85%;
-  height: 20px;
+  height: 30px;
   line-height: 13px;
   font: 10px/8px Tahoma, Verdana, sans-serif;
   color: #c3c3c3;
@@ -68,7 +68,9 @@
   overflow: hidden;
   text-overflow: ellipsis; 
 }
-
+.custom-popup b {
+  color:white;
+}
 /* required styles from leaflet*/
 
 .leaflet-pane,
@@ -707,24 +709,15 @@ border-right-color: #fff;
 }
 </style>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<link rel="stylesheet" href="/html_app/bower_components/font-awesome/css/font-awesome.min.css" />
-<script type="text/javascript" src="/assets/data/nombreParCom.json"></script>
+<script type="text/javascript" src="/assets/javascript/d3.min.js"></script>
+<script type="text/javascript" src="/assets/data/zoneCouvertureCasserne.json"></script>
+<script type="text/javascript" src="/assets/data/repartitionZonesCommunes.json"></script>
 
     </head>
 
     <body>
         <div id="dku_html"><!-- Body of your app -->
 <div class="container containerReWrite" >
-    <span class="btnAround">
-        <button onclick="btnClick(2010)" type="button" name="button" class="btn btn-default hoverBtn">2010</button>
-        <button onclick="btnClick(2011)" type="button" name="button" class="btn btn-default hoverBtn">2011</button>
-        <button onclick="btnClick(2012)" type="button" name="button" class="btn btn-default hoverBtn">2012</button>
-        <button onclick="btnClick(2013)" type="button" name="button" class="btn btn-default hoverBtn">2013</button>
-        <button onclick="btnClick(2014)" type="button" name="button" class="btn btn-default hoverBtn">2014</button>
-        <button onclick="btnClick(2015)" type="button" name="button" class="btn btn-default hoverBtn">2015</button>
-        <button onclick="btnClick(2016)" type="button" name="button" class="btn btn-default hoverBtn">2016</button>
-        <button onclick="btnClick(2017)" type="button" name="button" class="btn btn-default hoverBtn">2017</button>
-    </span>
     <div class="col-xs-12 custom-popup" id="map"></div>
 </div>
     
@@ -741,120 +734,221 @@ crossorigin=""></script>
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
     </div>
-        <script id="dku_js">
-var maxNbr = 0;
-//useful for keeping in mind what geoJson we want to delete before drawing the new one
-var geoJSONforMap = new L.geoJSON();
 
-//where we get all geo related information for drawing
-var communes_geojson_endpoint = 'https://geo.api.gouv.fr/departements/91/communes?fields=contour&format=geojson&geometry=contour';
+        <script id="dku_js">(function(){  var communes_geojson_endpoint = 'https://geo.api.gouv.fr/departements/91/communes?fields=contour&format=geojson&geometry=contour';
 const req = new XMLHttpRequest();
 req.open('GET', communes_geojson_endpoint, false); 
 req.send(null);
+
+//console.log("Réponse reçue: %s", req.responseText);
 var communes_geojson = (req.status === 200 && typeof req.responseText === 'string') ? JSON.parse(req.responseText) : false;
 
-
+// Create a Map
 var map = L.map('map').setView([48.6, 2.4], 9);
 var cartodb =  new  L.tileLayer('https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', {
     maxZoom: 20,
     attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 });
-var Esri_WorldImagery = new L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+
+//second option for background map:
+var Esri_WorldImagery = new L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { 
     maxZoom: 20,
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 });
 
-map.addLayer(Esri_WorldImagery);
+var CartoDB_Positron = new L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+    maxZoom: 20
+});
 
-//launch initial drawing
-btnClick(2010)
+map.addLayer(CartoDB_Positron);
 
+var good_names = {
+'ANGER':'Angerville Pussay',
+'ARPAJ':'Arpajon',
+'ATHIS':'Athis-Mons',
+'BALLA':'Ballancourt Itteville',
+'BRETI':'Brétigny sur Orge ',
+'CUTTE':'Cerny La Ferté',
+'CORBE':'Corbeil-Essonnes',
+'DOURD':'Dourdan',
+'DRAVE':'Draveil Vigneux',
+'ETAMP':'Etampes Bocha',
+'ETREC':'Etrechy',
+'EVRY':'Evry Ris-Orangis',
+'GIF':'Gif sur Yvette ',
+'JUVIS':'Juvisy sur Orge',
+'LARDY':'Lardy Marolles en Hurepoix',
+'ULIS':'Les Ulis',
+'LIMOU':'Limours',
+'LISSE':'Lisses Vert le Grand',
+'LONGJ':'Longjumeau Epinay sur Orge Ballainvilliers',
+'MAISS':'Maisse Boutigny sur Essonne Puiselet le Marais',
+'MASSY':'Massy Igny',
+'MENNE':'Mennecy',
+'MILLY':'Milly la Forêt',
+'MONTG':'Montgeron',
+'MARCO':'Montlhéry/La Ville du Bois-Marcoussis',
+'PALAI':'Palaiseau',
+'SACL':'Saclas Mereville',
+'CHILY':'Savigny Chilly-Mazarin',
+'SOS':'Soisy sur Seine',
+'BREUI':'St Chéron Breuillet',
+'SGB':'Ste Geneviève des Bois',
+'VALDE':'Val d Ecole',
+'VDY':'Val d Yerres',
+'VIRY':'Viry Chatillon',
+};
 
-//function definition
 function onEachFeature(feature, layer) {
-    if (feature.properties && feature.properties.nom) {
-        var threePoints = (feature.properties.nom.length > 12) ? "..." : "";
-        layer.bindPopup("<div><i class='icon-ambulance'></i> " + feature.properties.nbr + "</div> <i class='leaflet-title'>" + feature.properties.nom.slice(0, 12) + threePoints +"</i>");
+    //console.log(feature.properties.zcArray)
+    var popupBegin = "<div>";
+    var popupClose = "</div>";
+
+    if (feature.properties && feature.properties.nom ) {
+        if(feature.properties.zcArray && feature.properties.zcArray.length > 0){
+            feature.properties.zcArray.forEach(function(zc){
+                popupBegin += "<div> <b>" + zc.value.slice(0,4) + "% </b> du territoire est couvert par la zone de couverture de <b>" + good_names[zc.zc] + '</b></div>'
+            })
+        }else{
+          zcString = "Nothing"  
+        } 
+        var threePoints = (feature.properties.nom.length > 15) ? "..." : "";
+        var popupTitle = "<i class='leaflet-title'>Couverture du territoire de " + feature.properties.nom.slice(0, 15) + threePoints +" par les zones de couverture avoisinante</i>";
+
+        layer.bindPopup(popupBegin + popupTitle + popupClose);
+
     }
 }
 
-function perc2color(perc) {
-    var r, g, b = 0;
-    r = 255;
-    g = Math.round(5.1 * perc);
-    var h = r * 0x10000 + g * 0x100 + b * 0x1;
-    return '#' + ('000000' + h.toString(16)).slice(-6);
-}
-
 function style(feature) {
-    var nbrFormated = (feature.properties.nbr) ? parseFloat(feature.properties.nbr) : 0;
-    var perc = Math.round( (maxNbr - nbrFormated) / 100 );
     return {
-            weight: 1,
+            weight: 2,
             opacity: 1,
-            color: '#FFFAFA',
+            color: '#f4bc42',
             dashArray: '2',
-            fillOpacity: 0.5,
-            fillColor: perc2color(perc)
+            fillOpacity: 0.02,
+            fillColor: '#ff0000'
         };
 }
 
 
-function btnClick(year){
-    map.removeLayer(geoJSONforMap);
-    maxNbr = 0;
-    
-    var yearFormated = (typeof year === 'number' && Math.round(Number(year)) >= 2010 && Math.round(Number(year)) < 2020) ? Math.round(Number(year)) : 2010;
 
-         data[yearFormated].rows.forEach(item => {
+var  zones = {};
+function zonesDeCouvertures(){
+    if(typeof zonesforMap === "undefined"){
+         zonesforMap = new L.geoJSON();
+    }
+    if(!map.hasLayer(zonesforMap)){
+            zones.features = [];
+            zones.type = "FeatureCollection";
+
+         couverture.rows.forEach(item => {
             var record = {}
-            item.forEach((key, i) => record[data[yearFormated].columns[i]] = key);
+            item.forEach((key, i) => record[couverture.columns[i]] = key);
+            var newObj = JSON.parse(record["geom"])
+            zones.features.push(newObj);            
+          });
+            zonesforMap = new L.geoJSON(zones,{
+                style:{
+                    stroke: true,
+                    weight: 3,
+                    opacity: 1,
+                    dashArray: '5',
+                    fill: false,
+                }   
+            }).addTo(map);
 
-            var nbrFormated = (record["nb_ope"]) ? parseFloat(record["nb_ope"]) : 0;
+
+            //dataiku.fetch('sdis91_zones_couvertures_casernes_copy', function (df) {
+            //    var nbRows = df.getNbRows();
+            //    for (var i = 0; i < nbRows; i++) {
+            //        var record = df.getRecord(i);            
+            //        var newObj = JSON.parse(record["geom"])
+            //        zones.features.push(newObj);            
+            //    };
+
+            //    zonesforMap = new L.geoJSON(zones,{
+            //        style:{
+            //            stroke: true,
+            //            weight: 3,
+            //            opacity: 1,
+            //            dashArray: '5',
+            //            fill: false,
+            //        }   
+            //    }).addTo(map);
+            //});
+    }
+    else{
+        map.removeLayer(zonesforMap);
+    }
+}
+
+
+
+function getPercentages(){
+
+         repartitionZC.rows.forEach(item => {
+            var record = {}
+            item.forEach((key, i) => record[couverture.columns[i]] = key);
             var code = record["ope_code_insee"];
-            
-            if(typeof nbrFormated === 'number' && nbrFormated > maxNbr){ maxNbr = nbrFormated; }
-
+            var zcArray = [];
+            for (var prop in record) {
+               if(prop !== 'ope_code_insee' && prop !== 'ope_nom_commune' && prop !== 'somme' &&  prop !== '$rowId' && parseFloat(record[prop]) !== 0){
+                   zcArray.push({zc: prop, value:record[prop]});
+               }
+            }
             var geojsonUnit = _.find(communes_geojson.features, function(obj){ return  code === obj.properties.code; } );
             if(geojsonUnit && geojsonUnit.properties){
-                geojsonUnit.properties.nbr = record["nb_ope"]; 
+                geojsonUnit.properties.zcArray = zcArray; 
             }
-          })
-        geoJSONforMap = new L.geoJSON(communes_geojson, {
-            onEachFeature: onEachFeature,
-            style:style
-        }).addTo(map);
+
+          });
+          L.geoJSON(communes_geojson, {
+              onEachFeature: onEachFeature,
+              style:style
+          }).addTo(map);
 
 
-    ///dataiku.fetch('sdis_2010_2017_suap_v0', {
-    ///        sampling : "head",
-    ///        filter :  "ope_annee == " + yearFormated.toString(),
-    ///        limit : 20000
-    ///    }, function (df) {
 
-    ///    // Add a map marker for each row on the dataset
-    ///    // Each marker is a circle. The size of the circle varies with the 'size' column values
-    ///    var nbRows = df.getNbRows();
-    ///    for (var i = 0; i < nbRows; i++) {
-    ///        var record = df.getRecord(i);
+    //dataiku.fetch('sdis91_2017_repartition_zc_communes_prod', {
+    //        sampling : "head",
+    //        limit : 20000
+    //    }, function (df) {
 
-    ///        var nbrFormated = (record["nb_ope"]) ? parseFloat(record["nb_ope"]) : 0;
-    ///        var code = record["ope_code_insee"];
-    ///        
-    ///        if(typeof nbrFormated === 'number' && nbrFormated > maxNbr){ maxNbr = nbrFormated; }
+    //    var nbRows = df.getNbRows();
+    //    for (var i = 0; i < nbRows; i++) {
+    //        var record = df.getRecord(i);
+    //        var code = record["ope_code_insee"];
+    //        var zcArray = [];
+    //        for (var prop in record) {
+    //           if(prop !== 'ope_code_insee' && prop !== 'ope_nom_commune' && prop !== 'somme' &&  prop !== '$rowId' && parseFloat(record[prop]) !== 0){
+    //               zcArray.push({zc: prop, value:record[prop]});
+    //           }
+    //        }
+    //        var geojsonUnit = _.find(communes_geojson.features, function(obj){ return  code === obj.properties.code; } );
+    //        if(geojsonUnit && geojsonUnit.properties){
+    //            geojsonUnit.properties.zcArray = zcArray; 
+    //        }
+    //    };
+//  //      console.log('communes_geojson')
+//  //      console.log(communes_geojson)
+    //    
+    //    L.geoJSON(communes_geojson, {
+    //        onEachFeature: onEachFeature,
+    //        style:style
+    //    }).addTo(map);
+    //});
+}
 
-    ///        var geojsonUnit = _.find(communes_geojson.features, function(obj){ return  code === obj.properties.code; } );
-    ///        if(geojsonUnit && geojsonUnit.properties){
-    ///            geojsonUnit.properties.nbr = record["nb_ope"]; 
-    ///        }
-    ///    };
 
-    ///    geoJSONforMap = new L.geoJSON(communes_geojson, {
-    ///        onEachFeature: onEachFeature,
-    ///        style:style
-    ///    }).addTo(map);
-    ///    //console.log(geoJSONforMap)
-    ///});
-}</script>
+
+
+
+
+
+
+getPercentages()
+zonesDeCouvertures()}  )()</script>
     </body>
 </html>

@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>essonne_nbrTot_parAn_parCom_2010_2017</title>
+        <title>essonne_parCom_diff_(2011-2012-2013)_(2015-2016-2017)</title>
         <style id="dku_css" media="screen" type="text/css">#map {
 	height: 100%;
 }
@@ -707,8 +707,12 @@ border-right-color: #fff;
 }
 </style>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/javascript/d3.min.js"></script>
+<script type="text/javascript" src="/html_app/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/html_app/bower_components/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/html_app/bower_components/font-awesome/css/font-awesome.min.css" />
-<script type="text/javascript" src="/assets/data/nombreParCom.json"></script>
+<script type="text/javascript" src="/assets/data/diffLongParCom.json"></script>
+<script type="text/javascript" src="/assets/data/zoneCouvertureCasserne.json"></script>
 
     </head>
 
@@ -716,14 +720,8 @@ border-right-color: #fff;
         <div id="dku_html"><!-- Body of your app -->
 <div class="container containerReWrite" >
     <span class="btnAround">
-        <button onclick="btnClick(2010)" type="button" name="button" class="btn btn-default hoverBtn">2010</button>
-        <button onclick="btnClick(2011)" type="button" name="button" class="btn btn-default hoverBtn">2011</button>
-        <button onclick="btnClick(2012)" type="button" name="button" class="btn btn-default hoverBtn">2012</button>
-        <button onclick="btnClick(2013)" type="button" name="button" class="btn btn-default hoverBtn">2013</button>
-        <button onclick="btnClick(2014)" type="button" name="button" class="btn btn-default hoverBtn">2014</button>
-        <button onclick="btnClick(2015)" type="button" name="button" class="btn btn-default hoverBtn">2015</button>
-        <button onclick="btnClick(2016)" type="button" name="button" class="btn btn-default hoverBtn">2016</button>
-        <button onclick="btnClick(2017)" type="button" name="button" class="btn btn-default hoverBtn">2017</button>
+        <span><input type="checkbox" onclick="btnClick()" id="onlyBigCommunes" value="onlyBigCommunes"><label for="onlyBigCommunes">+20 <i class='icon-ambulance'></i></label></input></span>
+        <button onclick="zonesDeCouvertures()" type="button" name="zonesDeCouvertures" class="btn btn-default hoverBtn"><i class='icon-map-marker'></i> zones de couvertures</button>
     </span>
     <div class="col-xs-12 custom-popup" id="map"></div>
 </div>
@@ -740,121 +738,196 @@ integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgB
 crossorigin=""></script>
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+    
+    
+    
     </div>
+
         <script id="dku_js">
 var maxNbr = 0;
+var minNbr = 0;
 //useful for keeping in mind what geoJson we want to delete before drawing the new one
 var geoJSONforMap = new L.geoJSON();
-
 //where we get all geo related information for drawing
 var communes_geojson_endpoint = 'https://geo.api.gouv.fr/departements/91/communes?fields=contour&format=geojson&geometry=contour';
 const req = new XMLHttpRequest();
 req.open('GET', communes_geojson_endpoint, false); 
 req.send(null);
-var communes_geojson = (req.status === 200 && typeof req.responseText === 'string') ? JSON.parse(req.responseText) : false;
 
+var communes_geojson = (req.status === 200 && typeof req.responseText === 'string') ? JSON.parse(req.responseText) : false;
 
 var map = L.map('map').setView([48.6, 2.4], 9);
 var cartodb =  new  L.tileLayer('https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', {
     maxZoom: 20,
     attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 });
-var Esri_WorldImagery = new L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+var OpenStreetMap_BlackAndWhite = new L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
     maxZoom: 20,
-    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 });
-
-map.addLayer(Esri_WorldImagery);
+map.addLayer(OpenStreetMap_BlackAndWhite);
 
 //launch initial drawing
-btnClick(2010)
-
-
+btnClick()
 //function definition
+
+
+
 function onEachFeature(feature, layer) {
     if (feature.properties && feature.properties.nom) {
-        var threePoints = (feature.properties.nom.length > 12) ? "..." : "";
-        layer.bindPopup("<div><i class='icon-ambulance'></i> " + feature.properties.nbr + "</div> <i class='leaflet-title'>" + feature.properties.nom.slice(0, 12) + threePoints +"</i>");
+        if (feature.properties && feature.properties.nom) {
+            var threePoints = (feature.properties.nom.length > 12) ? "..." : "";
+            layer.bindPopup("<div><i class='icon-ambulance'></i> " + feature.properties.diffPerc + "% (" + feature.properties.diff + ")" + "</div> <i class='leaflet-title'>" + feature.properties.nom.slice(0, 12) + threePoints +"</i>");
+        }
     }
 }
-
-function perc2color(perc) {
-    var r, g, b = 0;
-    r = 255;
-    g = Math.round(5.1 * perc);
-    var h = r * 0x10000 + g * 0x100 + b * 0x1;
-    return '#' + ('000000' + h.toString(16)).slice(-6);
+function _perc2color(perc,scale,colorMin,colorMax) {
+    color = d3.scale.linear().domain([1,scale])
+          .interpolate(d3.interpolateHcl)
+          .range([d3.rgb(colorMin), d3.rgb(colorMax)]);
+    return color(perc);
 }
-
+function _perc2colorRED(perc,scale){ return _perc2color(perc,100,"#ffe0e0","#ff0000");   }
+function _perc2colorGREEN(perc,scale){ return _perc2color(perc,100,"#d1ffd9","#0fbf00");   }
 function style(feature) {
-    var nbrFormated = (feature.properties.nbr) ? parseFloat(feature.properties.nbr) : 0;
-    var perc = Math.round( (maxNbr - nbrFormated) / 100 );
+    var varForColorization = (feature.properties.diffPerc) ? parseFloat(feature.properties.diffPerc) : 0;
+    var colorCoded = '#ffffff';
+    if(varForColorization > 0){
+        colorCoded = _perc2colorRED(Math.round( varForColorization / maxNbr ), 100);
+    }else if(varForColorization < 0){
+        colorCoded = _perc2colorGREEN(Math.round( Math.abs(varForColorization / minNbr) ), 100);
+    }else{
+        colorCoded = '#ffffff';
+    }
+    if($('#onlyBigCommunes')[0].checked && feature.properties.nbr < 20){ colorCoded = '#ffffff'; }
+    
+    
     return {
             weight: 1,
             opacity: 1,
             color: '#FFFAFA',
             dashArray: '2',
             fillOpacity: 0.5,
-            fillColor: perc2color(perc)
+            fillColor: colorCoded,
         };
 }
 
-
-function btnClick(year){
+function btnClick(){
     map.removeLayer(geoJSONforMap);
     maxNbr = 0;
-    
-    var yearFormated = (typeof year === 'number' && Math.round(Number(year)) >= 2010 && Math.round(Number(year)) < 2020) ? Math.round(Number(year)) : 2010;
+    minNbr = 0;
 
-         data[yearFormated].rows.forEach(item => {
+         data.rows.forEach(item => {
             var record = {}
-            item.forEach((key, i) => record[data[yearFormated].columns[i]] = key);
-
-            var nbrFormated = (record["nb_ope"]) ? parseFloat(record["nb_ope"]) : 0;
+            item.forEach((key, i) => record[data.columns[i]] = key);
+            var varForColorization = (record["diffPerc"]) ? parseFloat(record["diffPerc"]) : 0;
             var code = record["ope_code_insee"];
             
-            if(typeof nbrFormated === 'number' && nbrFormated > maxNbr){ maxNbr = nbrFormated; }
-
+            if( !($('#onlyBigCommunes') && $('#onlyBigCommunes')[0].checked && record["nb_ope_avg"] < 20) ){
+                    if(typeof varForColorization === 'number' && varForColorization > maxNbr){ maxNbr = varForColorization; }
+                    if(typeof varForColorization === 'number' && varForColorization < minNbr){ minNbr = varForColorization; }
+            }
             var geojsonUnit = _.find(communes_geojson.features, function(obj){ return  code === obj.properties.code; } );
             if(geojsonUnit && geojsonUnit.properties){
-                geojsonUnit.properties.nbr = record["nb_ope"]; 
+                geojsonUnit.properties.nbr = record["nb_ope_avg"]; 
+                geojsonUnit.properties.diff = record["diff"]; 
+                var percentage = record["diffPerc"] * 100;
+                var percentage = ( (new RegExp('-')).test(percentage.toString()) ) ? ""+percentage.toString() : "+"+percentage.toString();
+                geojsonUnit.properties.diffPerc = (percentage.indexOf(".") !== -1) ? percentage.substring(0, percentage.indexOf(".") +2 ) : percentage; 
             }
-          })
-        geoJSONforMap = new L.geoJSON(communes_geojson, {
-            onEachFeature: onEachFeature,
-            style:style
-        }).addTo(map);
+        });
+
+         geoJSONforMap = new L.geoJSON(communes_geojson, {
+             onEachFeature: onEachFeature,
+             style:style
+         }).addTo(map);
 
 
-    ///dataiku.fetch('sdis_2010_2017_suap_v0', {
-    ///        sampling : "head",
-    ///        filter :  "ope_annee == " + yearFormated.toString(),
-    ///        limit : 20000
-    ///    }, function (df) {
+    ////dataiku.fetch('sdis_2010_2017_suap_avg3years', {
+    ////        sampling : "head",
+    ////        limit : 20000
+    ////    }, function (df) {
+    ////    var nbRows = df.getNbRows();
+    ////    for (var i = 0; i < nbRows; i++) {
+    ////        var record = df.getRecord(i);
+    ////        var varForColorization = (record["diffPerc"]) ? parseFloat(record["diffPerc"]) : 0;
+    ////        var code = record["ope_code_insee"];
+    ////        
+    ////        if( !($('#onlyBigCommunes') && $('#onlyBigCommunes')[0].checked && record["nb_ope_avg"] < 20) ){
+    ////                if(typeof varForColorization === 'number' && varForColorization > maxNbr){ maxNbr = varForColorization; }
+    ////                if(typeof varForColorization === 'number' && varForColorization < minNbr){ minNbr = varForColorization; }
+    ////        }
+    ////        var geojsonUnit = _.find(communes_geojson.features, function(obj){ return  code === obj.properties.code; } );
+    ////        if(geojsonUnit && geojsonUnit.properties){
+    ////            geojsonUnit.properties.nbr = record["nb_ope_avg"]; 
+    ////            geojsonUnit.properties.diff = record["diff"]; 
+    ////            var percentage = record["diffPerc"] * 100;
+    ////            var percentage = ( (new RegExp('-')).test(percentage.toString()) ) ? ""+percentage.toString() : "+"+percentage.toString();
+    ////            geojsonUnit.properties.diffPerc = (percentage.indexOf(".") !== -1) ? percentage.substring(0, percentage.indexOf(".") +2 ) : percentage; 
+    ////        }
+    ////    };
+    ////    geoJSONforMap = new L.geoJSON(communes_geojson, {
+    ////        onEachFeature: onEachFeature,
+    ////        style:style
+    ////    }).addTo(map);
+    ////});
+}
 
-    ///    // Add a map marker for each row on the dataset
-    ///    // Each marker is a circle. The size of the circle varies with the 'size' column values
-    ///    var nbRows = df.getNbRows();
-    ///    for (var i = 0; i < nbRows; i++) {
-    ///        var record = df.getRecord(i);
+    
+    
+    
+    
 
-    ///        var nbrFormated = (record["nb_ope"]) ? parseFloat(record["nb_ope"]) : 0;
-    ///        var code = record["ope_code_insee"];
-    ///        
-    ///        if(typeof nbrFormated === 'number' && nbrFormated > maxNbr){ maxNbr = nbrFormated; }
+var  zones = {};
+function zonesDeCouvertures(){
+    if(typeof zonesforMap === "undefined"){
+         zonesforMap = new L.geoJSON();
+    }
+    if(!map.hasLayer(zonesforMap)){
+            zones.features = [];
+            zones.type = "FeatureCollection";
 
-    ///        var geojsonUnit = _.find(communes_geojson.features, function(obj){ return  code === obj.properties.code; } );
-    ///        if(geojsonUnit && geojsonUnit.properties){
-    ///            geojsonUnit.properties.nbr = record["nb_ope"]; 
-    ///        }
-    ///    };
+         couverture.rows.forEach(item => {
+            var record = {}
+            item.forEach((key, i) => record[couverture.columns[i]] = key);
+            var newObj = JSON.parse(record["geom"])
+            zones.features.push(newObj);            
+          });
 
-    ///    geoJSONforMap = new L.geoJSON(communes_geojson, {
-    ///        onEachFeature: onEachFeature,
-    ///        style:style
-    ///    }).addTo(map);
-    ///    //console.log(geoJSONforMap)
-    ///});
-}</script>
+                zonesforMap = new L.geoJSON(zones,{
+                    style:{
+                        stroke: true,
+                        weight: 3,
+                        opacity: 1,
+                        dashArray: null,
+                        fill: false,
+                    }   
+                }).addTo(map);
+
+
+            //dataiku.fetch('sdis91_zones_couvertures_casernes_copy', function (df) {
+            //    var nbRows = df.getNbRows();
+            //    for (var i = 0; i < nbRows; i++) {
+            //        var record = df.getRecord(i);            
+            //        var newObj = JSON.parse(record["geom"])
+            //        zones.features.push(newObj);            
+            //    };
+
+            //    zonesforMap = new L.geoJSON(zones,{
+            //        style:{
+            //            stroke: true,
+            //            weight: 3,
+            //            opacity: 1,
+            //            dashArray: null,
+            //            fill: false,
+            //        }   
+            //    }).addTo(map);
+            //});
+    }
+    else{
+        map.removeLayer(zonesforMap);
+    }
+}
+</script>
     </body>
 </html>

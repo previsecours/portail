@@ -19,7 +19,7 @@ Le modèle a été ensuite utilisé pour prédire les interventions des semaines
   * En vert: prédiction correcte  
   * En rouge: prédiction qui s'est révelée fausse  
 
-<iframe id="freshwidget-frame" src="https://algo.previsecours.fr/dip/api/webapps/view?projectKey=PRVISECOURSVISUALISATIONDFINITIF&webAppId=Ug7wg82&apiKey=nYu9nKEZw1fr8THDp2zVJTyrKMf5siyM" scrolling="auto" allowtransparency="true" style="height: 500px; width: 100%;" frameborder="0"> </div></iframe>
+<iframe id="freshwidget-frame" src="/cartes/viz_prediction" scrolling="auto" allowtransparency="true" style="height: 500px; width: 100%;" frameborder="0"> </div></iframe>
 
 
 # Suite
